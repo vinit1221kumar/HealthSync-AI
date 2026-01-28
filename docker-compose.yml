@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: healthsync-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: healthsync
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - healthsync-network
+
+  # Backend API (Express.js)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: healthsync-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGODB_URI: mongodb://admin:admin123@mongodb:27017/healthsync?authSource=admin
+      JWT_SECRET: your_super_secret_jwt_key_change_this
+      JWT_EXPIRE: 7d
+      AI_SERVICE_URL: http://ai-service:8000
+      ALLOWED_ORIGINS: http://localhost:3000
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - healthsync-network
+    command: npm run dev
+
+  # AI Service (FastAPI)
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: healthsync-ai
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+      ENVIRONMENT: development
+      BACKEND_URL: http://backend:5000
+    volumes:
+      - ./ai-service/app:/app/app
+    networks:
+      - healthsync-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  healthsync-network:
+    driver: bridge

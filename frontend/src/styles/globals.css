@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply transition-colors duration-200;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-blue-600 focus:ring-primary;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-white hover:bg-cyan-600 focus:ring-secondary;
+}
+
+.btn-danger {
+  @apply bg-danger text-white hover:bg-red-600 focus:ring-danger;
+}
+
+.btn-outline {
+  @apply border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary;
+}
+
+.btn-sm {
+  @apply px-3 py-1 text-sm;
+}
+
+.btn-lg {
+  @apply px-6 py-3 text-lg;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md p-6 hover:shadow-lg;
+}
+
+.input {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+}
+
+.input-label {
+  @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.badge {
+  @apply inline-block px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.badge-primary {
+  @apply bg-blue-100 text-primary;
+}
+
+.badge-success {
+  @apply bg-green-100 text-success;
+}
+
+.badge-danger {
+  @apply bg-red-100 text-danger;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-warning;
+}
+
+.grid-responsive {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.sidebar {
+  @apply bg-dark text-white w-64 min-h-screen fixed left-0 top-0 overflow-y-auto;
+}
+
+.main-content {
+  @apply ml-64 min-h-screen;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    @apply w-full fixed bottom-0 h-auto max-h-96;
+  }
+
+  .main-content {
+    @apply ml-0 mb-96;
+  }
+}
+
+.animation-pulse {
+  @apply animate-pulse;
+}
+
+.skeleton {
+  @apply bg-gray-200 rounded h-4 w-full;
+}
